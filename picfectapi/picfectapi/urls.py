@@ -21,8 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('api.urls')),
-    # url(r'^sociallogin/', 'api.views.social_register'),
-    # url(r'^social_register/(?P<backend>[^/]+)/$','api.views.social_register'),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'^auth/', include('rest_framework_social_oauth2.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

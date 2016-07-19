@@ -20,7 +20,7 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
 
         fields = ('id', 'name', 'uploader', 'original_image', 'edited_image',
-                  'size', 'date_created', 'date_modified', 'category')
+         'date_created', 'date_modified', 'category')
 
         read_only_fields = ('id', 'name', 'uploader', 'size', 'date_created',
                             'date_modified')

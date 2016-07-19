@@ -23,6 +23,7 @@ from django.core.urlresolvers import reverse
 from social.apps.django_app.utils import psa, load_strategy, load_backend
 from social.backends.facebook import FacebookOAuth2
 
+
 class ImageListView(generics.ListCreateAPIView):
     """Handle GET and POST to /api/images/.
     GET:
@@ -35,16 +36,20 @@ class ImageListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         """GET /api/images/."""
+        logged_in_user = self.request.user
         category = self.request.query_params.get('category', None)
 
         if category:
-            return Image.objects.all().filter(category=category)
+            return Image.objects.all().filter(uploader=logged_in_user,
+                                                category=category)
 
-        return Image.objects.all().order_by('date_created')
+        return Image.objects.all().filter(uploader=logged_in_user).order_by('date_created')
 
     def perform_create(self, serializer):
         """POST /api/images/."""
-        serializer.save()
+        logged_in_user = self.request.user
+        serializer.save(uploader=logged_in_user)
+
 
 @psa('social:complete')
 def auth_by_fb_token(request, backend):
@@ -52,6 +57,7 @@ def auth_by_fb_token(request, backend):
     user = request.backend.do_auth(token)
     if user:
         return user
+
 
 class Register(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -69,4 +75,3 @@ class Register(APIView):
             return Response("Login Successful!")
         else:
             return Response("Bad Credentials, check the Token and/or the UID", status=403)
-    

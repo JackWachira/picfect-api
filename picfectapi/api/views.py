@@ -33,6 +33,7 @@ class ImageListView(generics.ListCreateAPIView):
     """
 
     serializer_class = ImageSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         """GET /api/images/."""

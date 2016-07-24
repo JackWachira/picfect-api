@@ -7,6 +7,7 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
 
@@ -20,8 +21,7 @@ class ImageSerializer(serializers.ModelSerializer):
         model = Image
 
         fields = ('id', 'name', 'uploader', 'original_image', 'edited_image',
-         'date_created', 'date_modified', 'category')
+                  'date_created', 'date_modified', 'category')
 
         read_only_fields = ('id', 'name', 'uploader', 'size', 'date_created',
                             'date_modified')
-

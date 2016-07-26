@@ -5,6 +5,8 @@ from api import views
 
 urlpatterns = [
     url(r'^images/$', views.ImageListView.as_view()),
+    url(r'^images/(?P<image_id>[0-9]+)/thumbnails/$',
+        views.ThumbnailsView.as_view()),
     url(r'^register/(?P<backend>[^/]+)/', views.Register.as_view()),
 ]
 

@@ -1,27 +1,19 @@
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.models import User
-from django.shortcuts import redirect
-from django.views.generic.base import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from social.apps.django_app.utils import strategy
 from rest_framework.views import APIView
 from rest_framework import generics
-from rest_framework.authentication import BasicAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.parsers import FormParser, JSONParser
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import permissions, status
-from rest_framework.decorators import api_view, permission_classes
-from api.models import Image
+from rest_framework import permissions
+from rest_framework.decorators import permission_classes
+from api.models import Image, Thumbnails
 from django.views.decorators.csrf import csrf_exempt
-from api.serializers import ImageSerializer, UserSerializer
+from api.serializers import ImageSerializer, ThumbnailsSerializer
 from django.contrib.auth import login
 from social.apps.django_app.views import _do_login
 from django.core.urlresolvers import reverse
 
 from social.apps.django_app.utils import psa, load_strategy, load_backend
-from social.backends.facebook import FacebookOAuth2
 
 
 class ImageListView(generics.ListCreateAPIView):
@@ -42,7 +34,7 @@ class ImageListView(generics.ListCreateAPIView):
 
         if category:
             return Image.objects.all().filter(uploader=logged_in_user,
-                                                category=category)
+                                              category=category)
 
         return Image.objects.all().filter(uploader=logged_in_user).order_by('date_created')
 
@@ -76,3 +68,13 @@ class Register(APIView):
             return Response("Login Successful!")
         else:
             return Response("Bad Credentials, check the Token and/or the UID", status=403)
+
+
+class ThumbnailsView(generics.ListAPIView):
+
+    serializer_class = ThumbnailsSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        image_id = self.kwargs.get('image_id')
+        return Thumbnails.objects.filter(original_image=image_id)

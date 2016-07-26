@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from effects import ImageEffects
 
 
 CATEGORIES = (
@@ -13,9 +16,11 @@ CATEGORIES = (
     (9, 'Holiday'), (10, 'Hobby'),
 )
 
+filters = ['blur', 'contour', 'detail', 'emboss', 'smooth', 'sharpen']
+
 
 class Image(models.Model):
-    """Model for storing images."""
+    """Model for images."""
 
     name = models.CharField(max_length=255, blank=True)
     original_image = models.ImageField(upload_to='images/', blank=False)
@@ -30,4 +35,33 @@ class Image(models.Model):
         Returns:
             The name of the image
         """
-        return "{}".format(self.name)
+        return "{}".format(self.original_image)
+
+
+class Thumbnails(models.Model):
+    """Model for thumbnails of edited images"""
+
+    name = models.CharField(max_length=255)
+    original_image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    effect = models.CharField(max_length=80)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Extend parent meta class."""
+
+        ordering = ['-date_modified']
+
+
+@receiver(post_save, sender=Image)
+def create_thumbnails(sender, **kwargs):
+    """Generate thumbnails once a photo is uploaded"""
+    photo = kwargs.get('instance', '')
+    if kwargs.get('created'):
+        for filter in filters:
+            effect = ImageEffects(photo.original_image, filter)
+            thumbnail = Thumbnails()
+            thumbnail.name = effect.filters()
+            thumbnail.original_image = photo
+            thumbnail.effect = filter
+            thumbnail.save()

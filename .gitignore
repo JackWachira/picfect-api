@@ -22,3 +22,11 @@ coverage.xml
 # Mac OS Desktop Store
 */.DS_Store
 .DS_Store
+
+picfectapi/test_media/
+
+picfectapi/media/
+
+picfectapi/test_media/images
+!picfectapi/test_media/images/adventure.png
+!picfectapi/test_media/images/fashion.png

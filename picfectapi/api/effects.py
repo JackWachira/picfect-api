@@ -9,9 +9,14 @@ class ImageEffects(object):
     def __init__(self, image, effect, temp=False):
         """Initialize image effects class."""
         self.image = Image.open(image)
+        if (self.image.mode == 'RGBA'):
+            self.image.load()
+            r, g, b, a = self.image.split()
+            self.image = Image.merge('RGB', (r, g, b))
+
         self.effect = effect
         self.image_name = image.name
-        path = settings.MEDIA_ROOT + '/edited/'
+        path = settings.MEDIA_ROOT + '/temp/'
         if not os.path.exists(path):
             os.makedirs(path)
         self.file_path = path + \
@@ -32,7 +37,7 @@ class ImageEffects(object):
         if self.effect == 'sharpen':
             edited_image = self.image.filter(ImageFilter.SHARPEN)
         edited_image.save(self.file_path)
-        return self.file_path
+        return self.file_path.split("picfectapi/", 1)[1]
 
     def operations(self):
         """Handle other simple image operations."""
@@ -40,9 +45,11 @@ class ImageEffects(object):
             edited_image = ImageOps.flip(self.image)
         if self.effect == 'mirror':
             edited_image = ImageOps.mirror(self.image)
-        if self.effect == 'invert':
-            edited_image = ImageOps.invert(self.image)
+        if self.effect == 'solarize':
+            edited_image = ImageOps.solarize(self.image)
+        if self.effect == 'posterize':
+            edited_image = ImageOps.posterize(self.image, 1)
         if self.effect == 'grayscale':
             edited_image = ImageOps.grayscale(self.image)
         edited_image.save(self.file_path)
-        return self.file_path
+        return self.file_path.split("picfectapi/", 1)[1]

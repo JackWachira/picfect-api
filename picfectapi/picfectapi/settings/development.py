@@ -12,3 +12,5 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+MEDIA_ROOT = os.path.abspath('media')
+MEDIA_URL = '/media/'

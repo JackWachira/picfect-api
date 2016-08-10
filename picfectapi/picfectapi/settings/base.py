@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'django_nose',
     'rest_framework',
     'social.apps.django_app.default',
     'oauth2_provider',
     'rest_framework_social_oauth2',
-    'corsheaders',
+    'corsheaders'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -56,6 +57,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -135,10 +138,9 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, '../staticfiles')
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = os.path.abspath('media')
-MEDIA_URL = '/media/'
 
-# # Pythin social Auth 
+
+# # Pythin social Auth
 # SOCIAL_AUTH_FACEBOOK_KEY = '1622731728039944'
 SOCIAL_AUTH_FACEBOOK_SECRET = '6539760368ca1491979f11efc15c7242'
 
@@ -147,6 +149,6 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-  )
+)
 
 PROPRIETARY_BACKEND_NAME = 'Facebook'

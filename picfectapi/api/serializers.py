@@ -16,12 +16,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    original_image = serializers.ImageField()
+    # original_image = serializers.ImageField()
 
     class Meta:
         model = Image
 
-        fields = ('id', 'name', 'uploader', 'original_image', 'edited_image',
+        fields = ('id', 'name', 'uploader', 'original_image',
                   'date_created', 'date_modified', 'category')
 
         read_only_fields = ('id', 'name', 'uploader', 'size', 'date_created',

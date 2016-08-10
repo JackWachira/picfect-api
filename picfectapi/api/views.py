@@ -12,8 +12,8 @@ from api.serializers import ImageSerializer, ThumbnailsSerializer
 from django.contrib.auth import login
 from social.apps.django_app.views import _do_login
 from django.core.urlresolvers import reverse
-
 from social.apps.django_app.utils import psa, load_strategy, load_backend
+from django.core.files import File
 
 
 class ImageListView(generics.ListCreateAPIView):
@@ -30,18 +30,33 @@ class ImageListView(generics.ListCreateAPIView):
     def get_queryset(self):
         """GET /api/images/."""
         logged_in_user = self.request.user
-        category = self.request.query_params.get('category', None)
-
-        if category:
-            return Image.objects.all().filter(uploader=logged_in_user,
-                                              category=category)
-
         return Image.objects.all().filter(uploader=logged_in_user).order_by('date_created')
 
     def perform_create(self, serializer):
         """POST /api/images/."""
         logged_in_user = self.request.user
-        serializer.save(uploader=logged_in_user)
+        edited_image = self.kwargs.get('thumbnail_id')
+        if edited_image:
+            thumb = Thumbnails.objects.get(pk=edited_image)
+            with open(thumb.name, 'rb') as doc_file:
+                serializer.save(uploader=logged_in_user,
+                                original_image=File(doc_file))
+        else:
+            serializer.save(uploader=logged_in_user)
+
+
+class ImageDetailView(generics.RetrieveUpdateAPIView):
+    """Handle PUT to /api/images/.
+    PUT:
+        Returns updated image
+    """
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_update(self, serializer):
+        category = self.request.data.get('category', None)
+        serializer.save(category=category)
 
 
 @psa('social:complete')

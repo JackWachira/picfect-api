@@ -1,1 +1,1 @@
-web: gunicorn picfectapi.wsgi;
+web: gunicorn picfectapi.wsgi --pythonpath=picfectapi --log-file -

@@ -1,1 +1,1 @@
-web: gunicorn picfectapi.wsgi; --log-file -
+web: gunicorn picfectapi.wsgi;

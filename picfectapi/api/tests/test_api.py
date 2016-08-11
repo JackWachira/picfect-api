@@ -3,9 +3,7 @@ from rest_framework.test import APITestCase
 from api.models import Image
 
 # Facebook graphapi test user access token
-access_token = 'EAAXD3aw3MAgBAIe1S3ZACMLPgEI50E5LZB6TOBxNp3QicHEQtZA4qG79tqqv4rZ\
-                AKSecDWh0V8DuWWupgB6h9Dkwwi3W7wqZB4zCauy5L4ivpKAYJgU4epoFNh5CPZAN\
-                ZBMlmNf2k2HLViuN9ZAGDdgFvUBvwP2HLisZD'
+access_token = 'EAAXD3aw3MAgBAIe1S3ZACMLPgEI50E5LZB6TOBxNp3QicHEQtZA4qG79tqqv4rZAKSecDWh0V8DuWWupgB6h9Dkwwi3W7wqZB4zCauy5L4ivpKAYJgU4epoFNh5CPZANZBMlmNf2k2HLViuN9ZAGDdgFvUBvwP2HLisZD'
 
 
 class ImageAPITest(APITestCase):

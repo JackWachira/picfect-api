@@ -23,12 +23,11 @@ coverage.xml
 */.DS_Store
 .DS_Store
 
-picfectapi/test_media/
+/test_media/
+/media/
 
-picfectapi/media/
+/test_media/images/
+!/test_media/images/adventure.png
+!/test_media/images/fashion.png
 
-picfectapi/test_media/images/
-!picfectapi/test_media/images/adventure.png
-!picfectapi/test_media/images/fashion.png
-
-.vscode
+.vscode/

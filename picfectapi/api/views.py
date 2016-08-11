@@ -1,25 +1,23 @@
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.views import APIView
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import permissions
-from rest_framework.decorators import permission_classes
-from api.models import Image, Thumbnails
-from django.views.decorators.csrf import csrf_exempt
-from api.serializers import ImageSerializer, ThumbnailsSerializer
 from django.contrib.auth import login
-from social.apps.django_app.views import _do_login
-from django.core.urlresolvers import reverse
-from social.apps.django_app.utils import psa, load_strategy, load_backend
 from django.core.files import File
+from django.core.urlresolvers import reverse
+from rest_framework import generics, permissions
+from rest_framework.decorators import permission_classes
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from social.apps.django_app.utils import load_backend, load_strategy, psa
+from social.apps.django_app.views import _do_login
+
+from api.models import Image, Thumbnails
+from api.serializers import ImageSerializer, ThumbnailsSerializer
 
 
 class ImageListView(generics.ListCreateAPIView):
     """Handle GET and POST to /api/images/.
     GET:
-        Show all the recent images.
+        Shows all the images.
     POST:
         Upload a new image.
     """
@@ -29,11 +27,13 @@ class ImageListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         """GET /api/images/."""
+
         logged_in_user = self.request.user
         return Image.objects.all().filter(uploader=logged_in_user).order_by('date_created')
 
     def perform_create(self, serializer):
         """POST /api/images/."""
+
         logged_in_user = self.request.user
         edited_image = self.kwargs.get('thumbnail_id')
         if edited_image:
@@ -50,6 +50,7 @@ class ImageDetailView(generics.RetrieveUpdateAPIView):
     PUT:
         Returns updated image
     """
+
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = (IsAuthenticated,)
@@ -68,6 +69,10 @@ def auth_by_fb_token(request, backend):
 
 
 class Register(APIView):
+    """Handle GET to /api/register/(?P<backend>[^/]+)/
+    GET:
+        Returns login status
+    """
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, backend, *args, **kwargs):
@@ -86,7 +91,10 @@ class Register(APIView):
 
 
 class ThumbnailsView(generics.ListAPIView):
-
+    """Handle GET to api/images/(?P<image_id>[0-9]+)/thumbnails/
+    GET:
+        Returns edited thumbnails of an image
+    """
     serializer_class = ThumbnailsSerializer
     permission_classes = (IsAuthenticated,)
 

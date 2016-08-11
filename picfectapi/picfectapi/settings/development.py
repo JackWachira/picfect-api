@@ -1,4 +1,4 @@
-"""Development settings for picfect."""
+"""Development settings for picfectapi."""
 from .base import *
 
 

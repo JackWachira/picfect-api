@@ -1,5 +1,5 @@
 """
-Production specific settings for picgrinder.
+Production specific settings for picfect api.
 """
 
 from .base import *
@@ -12,5 +12,6 @@ DEBUG = True
 DATABASES = {
     'default': dj_database_url.config()
 }
+
 MEDIA_ROOT = os.path.abspath('media')
 MEDIA_URL = '/media/'

@@ -1,35 +1,22 @@
-"""Serializers for pictures."""
-from .models import Image
-
-from django.contrib.auth.models import User
-from models import Thumbnails
-
 from rest_framework import serializers
 
-
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-
-        fields = ('id', 'first_name', 'last_name', 'email')
+from api.models import Image
+from api.models import Thumbnails
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    # original_image = serializers.ImageField()
+    """Image Model Serializer. """
 
     class Meta:
         model = Image
-
         fields = ('id', 'name', 'uploader', 'original_image',
                   'date_created', 'date_modified', 'category')
-
         read_only_fields = ('id', 'name', 'uploader', 'size', 'date_created',
                             'date_modified')
 
 
 class ThumbnailsSerializer(serializers.ModelSerializer):
-    """Define thumbnails serializer fields."""
+    """Thumbnails Model Serializer."""
 
     class Meta:
         model = Thumbnails

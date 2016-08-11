@@ -30,3 +30,5 @@ picfectapi/media/
 picfectapi/test_media/images/
 !picfectapi/test_media/images/adventure.png
 !picfectapi/test_media/images/fashion.png
+
+.vscode

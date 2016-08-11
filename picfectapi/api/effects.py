@@ -1,6 +1,7 @@
 import os
-from PIL import Image, ImageFilter, ImageOps
+
 from django.conf import settings
+from PIL import Image, ImageFilter, ImageOps
 
 
 class ImageEffects(object):
@@ -8,6 +9,7 @@ class ImageEffects(object):
 
     def __init__(self, image, effect):
         """Initialize image effects class."""
+
         self.image = Image.open(image)
         if (self.image.mode == 'RGBA'):
             self.image.load()
@@ -24,6 +26,7 @@ class ImageEffects(object):
 
     def filters(self):
         """Handle Filters on images."""
+
         if self.effect == 'blur':
             edited_image = self.image.filter(ImageFilter.BLUR)
         if self.effect == 'contour':
@@ -37,6 +40,7 @@ class ImageEffects(object):
         if self.effect == 'sharpen':
             edited_image = self.image.filter(ImageFilter.SHARPEN)
         edited_image.save(self.file_path)
+
         if "picfectapi/" in self.file_path:
             return self.file_path.split("picfectapi/", 1)[1]
         return self.file_path
@@ -54,6 +58,7 @@ class ImageEffects(object):
         if self.effect == 'grayscale':
             edited_image = ImageOps.grayscale(self.image)
         edited_image.save(self.file_path)
+
         if "picfectapi/" in self.file_path:
             return self.file_path.split("picfectapi/", 1)[1]
         return self.file_path

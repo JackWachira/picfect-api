@@ -1,3 +1,7 @@
+"""
+Test settings for picfect api.
+"""
+
 from .base import *
 
 DATABASES = {

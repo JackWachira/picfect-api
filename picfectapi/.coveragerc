@@ -6,3 +6,4 @@ omit =
     *__init__*
     *migrations/*
     *api/admin.py*
+    *api/models.py*

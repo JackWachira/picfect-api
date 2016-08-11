@@ -6,7 +6,7 @@ from django.conf import settings
 class ImageEffects(object):
     """Handle image effects and filters."""
 
-    def __init__(self, image, effect, temp=False):
+    def __init__(self, image, effect):
         """Initialize image effects class."""
         self.image = Image.open(image)
         if (self.image.mode == 'RGBA'):
@@ -37,7 +37,9 @@ class ImageEffects(object):
         if self.effect == 'sharpen':
             edited_image = self.image.filter(ImageFilter.SHARPEN)
         edited_image.save(self.file_path)
-        return self.file_path.split("picfectapi/", 1)[1]
+        if "picfectapi/" in self.file_path:
+            return self.file_path.split("picfectapi/", 1)[1]
+        return self.file_path
 
     def operations(self):
         """Handle other simple image operations."""
@@ -52,4 +54,6 @@ class ImageEffects(object):
         if self.effect == 'grayscale':
             edited_image = ImageOps.grayscale(self.image)
         edited_image.save(self.file_path)
-        return self.file_path.split("picfectapi/", 1)[1]
+        if "picfectapi/" in self.file_path:
+            return self.file_path.split("picfectapi/", 1)[1]
+        return self.file_path

@@ -78,8 +78,3 @@ def create_thumbnails(sender, **kwargs):
                 thumbnail.original_image = photo
                 thumbnail.effect = effect_type
                 thumbnail.save()
-
-
-@receiver(post_delete, sender=Thumbnails)
-def post_delete_user(sender, instance, *args, **kwargs):
-    Thumbnails.objects.all().delete()

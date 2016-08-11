@@ -19,17 +19,15 @@ def get_temporary_image(temp_file):
     return temp_file
 
 
-class MockData():
+class ImageAPITest(APITestCase):
 
-    def mock(self):
+    def setUp(self):
         self.client.get("/api/register/facebook/?access_token=" + access_token)
         Image.objects.create(name="adventure.png", original_image="images/adventure.png",
                              date_created="2016-08-03 11:12:12.959349+03", date_modified="2016-08-03 11:12:12.95939+03", category=1, uploader_id=1)
         Image.objects.create(name="fashion.png", original_image="images/fashion.png",
-                             date_created="2016-08-03 11:12:12.959349+03", date_modified="2016-08-03 11:12:12.95939+03", category=4, uploader_id=1)
-
-
-class ImageAPITest(APITestCase, MockData):
+                             date_created="2016-08-03 11:12:12.959349+03", date_modified="2016 - 08 - 03\
+11: 12: 12.95939 + 03", category=4, uploader_id=1)
 
     def test_unauthorized_access_is_not_allowed(self):
         """Test that a user cannot access API without credentials."""
@@ -40,7 +38,6 @@ class ImageAPITest(APITestCase, MockData):
 
     def test_get_all_images(self):
         """Test that a GET to /api/images/ returns all images."""
-        self.mock()
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer facebook ' + access_token)
         response = self.client.get('/api/images/')
@@ -49,7 +46,6 @@ class ImageAPITest(APITestCase, MockData):
 
     def test_save_edited_image(self):
         """Test that a POST to /api/images/edits/(?P<thumbnail_id>[0-9]+)/ saves edited image."""
-        self.mock()
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer facebook ' + access_token)
         response = self.client.post('/api/images/edits/1/', {'category': 1})
@@ -57,7 +53,6 @@ class ImageAPITest(APITestCase, MockData):
 
     def test_get_thumbnails(self):
         """Test that a GET to api/images/(?P<image_id>[0-9]+)/thumbnails/ gets associalted thumbnails."""
-        self.mock()
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer facebook ' + access_token)
         response = self.client.get('/api/images/1/thumbnails/')
@@ -66,7 +61,6 @@ class ImageAPITest(APITestCase, MockData):
 
     def test_update_image_category(self):
         """Test that a PUT to api/images/(?P<pk>[0-9]+)/ updates image category."""
-        self.mock()
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer facebook ' + access_token)
         response = self.client.put(
@@ -76,7 +70,6 @@ class ImageAPITest(APITestCase, MockData):
 
     def test_login_successful(self):
         """Test that a GET to api/register/(?P<backend>[^/]+)/ logins user successfully"""
-        self.mock()
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer facebook ' + access_token)
         response = self.client.get(

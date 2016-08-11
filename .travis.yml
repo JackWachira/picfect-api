@@ -6,7 +6,6 @@ install:
   - pip install -r requirements.txt
 
 env:
-  - DB=sqlite
   - SECRET_KEY='&gj3fvzp2p@lh2eo^1w618g4nd!3ztlhg8jl)^z+qr4iv+zdez'
 
 script:

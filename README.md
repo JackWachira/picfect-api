@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/andela-jmwangi/picfect-api.svg?branch=feature-review)]
 (https://travis-ci.org/andela-jmwangi/picfect-api)
-[![Coverage Status](https://coveralls.io/repos/github/andela-jmwangi/picfect-api/badge.svg?branch=master)]
+[![Coverage Status](https://coveralls.io/repos/github/andela-jmwangi/picfect-api/badge.svg?branch=feature-review)]
 (https://coveralls.io/github/andela-jmwangi/picfect-api?branch=feature-review)
 [![Code Health](https://landscape.io/github/andela-jmwangi/picfect-api/feature-review/landscape.svg?style=flat)]
 (https://landscape.io/github/andela-jmwangi/picfect-api/feature-review)

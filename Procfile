@@ -1,1 +1,1 @@
-web: gunicorn picfectapi/picfectapi.wsgi; python picfectapi/manage.py collectstatic --log-file -
+web: gunicorn picfectapi/picfectapi.wsgi; --log-file -

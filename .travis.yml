@@ -9,7 +9,7 @@ env:
   - DB=sqlite
 
 script:
-  - python picfectapi/manage.py test --settings=picfectapi.settings.test
+  - python picfectapi/manage.py test api --settings=picfectapi.settings.test
 
 after_success:
   - coveralls
